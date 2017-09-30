@@ -4,8 +4,6 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import ua.alex.pab.java.cmd.CommandObserver;
-import ua.alex.pab.java.cmd.Commands;
 import ua.alex.pab.java.data.RamDataManager;
 
 public class Start {
@@ -18,7 +16,7 @@ public class Start {
         TelegramBotsApi botsApi = new TelegramBotsApi();
         
         Bot bot = new Bot("Пукан", new RamDataManager());
-        bot.getBotNicks().addNick("бот");
+        bot.getBotNickSpace().addNick("бот");
         
         // Register our bot
         try {

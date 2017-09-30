@@ -1,0 +1,35 @@
+package ua.alex.pab.java;
+
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+
+import ua.alex.pab.java.base.BotNickSpace;
+import ua.alex.pab.java.cmd.Commands;
+import ua.alex.pab.java.data.DataManager;
+
+public abstract class BotInf extends TelegramLongPollingBot {
+	protected BotNickSpace botNickSpace;
+	protected DataManager  dataManager;
+	protected Commands     commands;
+	
+	public BotInf(String nick, DataManager dataManager) {
+		if (dataManager == null) {
+			throw new IllegalArgumentException();
+		}
+		
+		this.dataManager  = dataManager;
+		this.botNickSpace = new BotNickSpace(nick);
+		this.commands     = new Commands(this);
+	}
+	
+	public BotNickSpace getBotNickSpace() {
+		return botNickSpace;
+	}
+	
+	public DataManager getDataManager() {
+		return dataManager;
+	}
+	
+	public Commands getCommands() {
+		return commands;
+	}
+}

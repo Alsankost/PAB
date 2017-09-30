@@ -2,43 +2,25 @@ package ua.alex.pab.java;
 
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import ua.alex.pab.java.base.BotNickSpace;
 import ua.alex.pab.java.base.User;
 import ua.alex.pab.java.cmd.Command;
 import ua.alex.pab.java.cmd.Commands;
 import ua.alex.pab.java.data.DataManager;
 
 
-public class Bot extends TelegramLongPollingBot {
+public class Bot extends BotInf {
 
 	//public static Pattern pattern = Pattern.compile("windows");
-	
-	private BotNickSpace botNicks;
-	private DataManager dataManager;
-	private Commands commands;
-	
-	public BotNickSpace getBotNicks() {
-		return botNicks;
-	}
-	
-	public DataManager getDataManager() {
-		return dataManager;
-	}
-	
 	public Bot(String nick, DataManager dm) {
-		botNicks = new BotNickSpace(nick);
-		dataManager = dm;
-		commands = new Commands(dataManager);
-		
+		super(nick, dm);
 		dm.loadLaws();
 		
 		dm.regUser(427529611, "Батя");
 		dm.regUser(294112796, "Пуканный звездолет");
 		
-		System.out.println((commands.regCommand("привет", (args) -> { return "привет"; }, "public"))?"привет is load":"привет is not load");
+		System.out.println((commands.regCommand("привет", (args, bot) -> { return "привет"; }, "public"))?"привет is load":"привет is not load");
 	}
 	
 	@Override
@@ -62,7 +44,7 @@ public class Bot extends TelegramLongPollingBot {
 	        System.out.println("User: '" + user.getName() + "@" + update.getMessage().getFrom().getId() + "'");
 	        System.out.println("Message: " + messageText);
 	        
-	        String context = botNicks.parseRequest(messageText);
+	        String context = botNickSpace.parseRequest(messageText);
 	        if (context != null) {
 	        	if (context.length() != 0) {
 	        		System.out.println("Context: " + context);
@@ -151,6 +133,7 @@ public class Bot extends TelegramLongPollingBot {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean sendTextMessageToChat(String text, long id) {
 		SendMessage message = new SendMessage().setChatId(id).setText(text);
 		

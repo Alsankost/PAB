@@ -7,25 +7,25 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ua.alex.pab.java.BotInf;
 import ua.alex.pab.java.base.Law;
 import ua.alex.pab.java.base.User;
-import ua.alex.pab.java.data.DataManager;
 
 public class Commands {
 	private Map<String,CommandPack> commands;
-	private DataManager botDataManager;
+	private BotInf botProxy;
 	
 	private static final Pattern NAME_PATTERN  = Pattern.compile("^\\S+$");
 	private static final Pattern SPACE_PATTERN = Pattern.compile("\\s+");
 	private static final Pattern QUOTE_PATTERN = Pattern.compile("[^\\\\]\"");  
 	
-	public Commands(DataManager botDataManager) {
-		this.botDataManager = botDataManager;
+	public Commands(BotInf botProxy) {
+		this.botProxy = botProxy;
 		commands = new HashMap<String,CommandPack>();
 	}
 	
 	public boolean regCommand(String name, CommandObserver co, String law) {
-		Law lawObj = botDataManager.getLaws().getFromName(law);
+		Law lawObj = botProxy.getDataManager().getLaws().getFromName(law);
 		if (commands.containsKey(name) ||
 			name == null || co == null ||
 			law == null  || name.length() == 0 ||
@@ -103,7 +103,7 @@ public class Commands {
 		}
 		
 		try {
-			return tmp.commandObserver.execute(com.getArguments());
+			return tmp.commandObserver.execute(com.getArguments(), botProxy);
 		}
 		catch (Exception ex) {
 			//LOG
