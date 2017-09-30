@@ -35,7 +35,10 @@ public class Bot extends TelegramLongPollingBot {
 		
 		dm.loadLaws();
 		
-		commands.regCommand("привет", (args) -> { return "привет"; }, "public");
+		dm.regUser(427529611, "Батя");
+		dm.regUser(294112796, "Пуканный звездолет");
+		
+		System.out.println((commands.regCommand("привет", (args) -> { return "привет"; }, "public"))?"привет is load":"привет is not load");
 	}
 	
 	@Override
@@ -55,8 +58,9 @@ public class Bot extends TelegramLongPollingBot {
 	        	user = this.dataManager.getDefaultUser(userName);
 	        }
 	        
-	        System.out.println("\n\n\n====MESSAGE====");
-	        System.out.println("User name: " + user.getName());
+	        System.out.println("\n====MESSAGE====");
+	        System.out.println("User: '" + user.getName() + "@" + update.getMessage().getFrom().getId() + "'");
+	        System.out.println("Message: " + messageText);
 	        
 	        String context = botNicks.parseRequest(messageText);
 	        if (context != null) {
@@ -73,7 +77,13 @@ public class Bot extends TelegramLongPollingBot {
 	        		String result = commands.executeCommand(command, user);
 	        		
 	        		if (result == null) {
-	        			System.out.println("#NO RESULT");
+	        			System.out.println("#COMMAND IS NOT FOUND");
+	        			this.sendTextMessageToChat(user.getName() + ", не знаю такой комманды...", chatId);
+	        			return;
+	        		}
+	        		
+	        		if (result.compareTo("#ERROR:EXCEPTION") == 0) {
+	        			System.out.println("#EXECUTE ERROR");
 	        			this.sendTextMessageToChat(user.getName() + ", с данной коммандой какие-то неполадки!", chatId);
 	        			return;
 	        		}
@@ -87,6 +97,9 @@ public class Bot extends TelegramLongPollingBot {
 	        		if (result.length() > 0) {
 	        			System.out.println("Result: " + result);
 	        			this.sendTextMessageToChat(user.getName() + ", " + result, chatId);
+	        		}
+	        		else {
+	        			System.out.println("#NO RESULT");
 	        		}
 	        		return;
 	        	}

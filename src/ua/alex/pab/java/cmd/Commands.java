@@ -15,7 +15,7 @@ public class Commands {
 	private Map<String,CommandPack> commands;
 	private DataManager botDataManager;
 	
-	private static final Pattern NAME_PATTERN  = Pattern.compile("^[\\S]+$");
+	private static final Pattern NAME_PATTERN  = Pattern.compile("^\\S+$");
 	private static final Pattern SPACE_PATTERN = Pattern.compile("\\s+");
 	private static final Pattern QUOTE_PATTERN = Pattern.compile("[^\\\\]\"");  
 	
@@ -29,7 +29,7 @@ public class Commands {
 		if (commands.containsKey(name) ||
 			name == null || co == null ||
 			law == null  || name.length() == 0 ||
-			lawObj != null || !NAME_PATTERN.matcher(name).find()) {
+			lawObj == null || !NAME_PATTERN.matcher(name).find()) {
 			return false;
 		}
 		
@@ -107,7 +107,8 @@ public class Commands {
 		}
 		catch (Exception ex) {
 			//LOG
-			return null;
+			return "#ERROR:EXCEPTION";
+			//System.out.println("!ERROR IN COMMAND!\n" + ex.getMessage());
 		}
 	}
 }
