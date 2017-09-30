@@ -6,6 +6,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import ua.alex.pab.java.base.BotNickSpace;
+import ua.alex.pab.java.base.User;
+import ua.alex.pab.java.cmd.Command;
 import ua.alex.pab.java.cmd.Commands;
 import ua.alex.pab.java.data.DataManager;
 
@@ -46,10 +48,29 @@ public class Bot extends TelegramLongPollingBot {
 			long chatId = update.getMessage().getChatId();
 	        String userName = update.getMessage().getFrom().getFirstName();
 	        
+	        User user = this.dataManager.getUserFromId(update.getMessage().getFrom().getId());
+	        if (user == null) {
+	        	user = this.dataManager.getDefaultUser(userName);
+	        }
+	        
 	        String context = botNicks.parseRequest(messageText);
 	        if (context != null) {
 	        	if (context.length() == 0) {
-	        		this.sendTextMessageToChat(userName + " че те надо?", chatId);
+	        		Command command = Commands.parseCommand(context);
+	        		if (command != null) {
+	        			this.sendTextMessageToChat(user.getName() + ", хз что это должно значить...", chatId);
+	        			return;
+	        		}
+	        		
+	        		String result = commands.executeCommand(command, user);
+	        		if (result.compareTo("#ERROR:LAW") == 0) {
+	        			this.sendTextMessageToChat(user.getName() + ", у вас недостаточно прав для этого действия!", chatId);
+	        			return;
+	        		}
+	        		
+	        		if (result.length() > 0) {
+	        			this.sendTextMessageToChat(user.getName() + ", " + result, chatId);
+	        		}
 	        	}
 	        }
 	        

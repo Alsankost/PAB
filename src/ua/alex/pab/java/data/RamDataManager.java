@@ -68,6 +68,10 @@ public class RamDataManager implements DataManager {
 				}
 			}
 		}
+		
+		public void setLaws(String[] laws) {
+			this.laws = laws.clone();
+		}
 	}
 	
 	private Map<Long, EntityUser> users;
@@ -137,8 +141,10 @@ public class RamDataManager implements DataManager {
 	}
 
 	@Override
-	public String[] getDefaultLaws() {
-		return defaultLaws;
+	public User getDefaultUser(String name) {
+		EntityUser tmp = new EntityUser(-1, name);
+		tmp.setLaws(defaultLaws);
+		return tmp;
 	}
 
 	@Override
