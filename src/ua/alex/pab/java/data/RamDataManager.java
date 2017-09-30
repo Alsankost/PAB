@@ -53,11 +53,12 @@ public class RamDataManager implements DataManager {
 		}
 		
 		public void addLaw(String law) {
-			String[] tmp = new String[this.laws.length + 1];
+			String[] tmp = new String[this.laws.length];
 			for (int i = 0; i < this.laws.length; i++) {
 				tmp[i] = this.laws[i];
 			}
 			tmp[tmp.length - 1] = law;
+			this.laws = tmp;
 		}
 		
 		public void delLaw(String law) {
@@ -87,14 +88,17 @@ public class RamDataManager implements DataManager {
 			return false;
 		}
 		
-		List<User> vals = new ArrayList<User>(users.values());
-		for (int i = 0; i < vals.size(); i++) {
-			if (vals.get(i).getName().compareTo(name) == 0) {
+		List<User> usersList = new ArrayList<User>(users.values());
+		for (int i = 0; i < usersList.size(); i++) {
+			if (usersList.get(i).getName().compareTo(name) == 0) {
 				return false;
 			}
 		}
 		
+		EntityUser tmp = new EntityUser(id,name);
+		tmp.setLaws(defaultLaws);
 		users.put(id, new EntityUser(id,name));
+		
 		return true;
 	}
 
@@ -141,8 +145,8 @@ public class RamDataManager implements DataManager {
 	}
 
 	@Override
-	public User getDefaultUser(String name) {
-		EntityUser tmp = new EntityUser(-1, name);
+	public User getDefaultUser(long id, String name) {
+		EntityUser tmp = new EntityUser(id, name);
 		tmp.setLaws(defaultLaws);
 		return tmp;
 	}

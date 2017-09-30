@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.telegram.telegrambots.api.objects.Update;
+
 import ua.alex.pab.java.BotInf;
 import ua.alex.pab.java.base.Law;
 import ua.alex.pab.java.base.User;
@@ -17,7 +19,8 @@ public class Commands {
 	
 	private static final Pattern NAME_PATTERN  = Pattern.compile("^\\S+$");
 	private static final Pattern SPACE_PATTERN = Pattern.compile("\\s+");
-	private static final Pattern QUOTE_PATTERN = Pattern.compile("[^\\\\]\"");  
+	private static final Pattern QUOTE_PATTERN = Pattern.compile("[^\\\\]\"");
+	private static final Pattern HEAD_SPACE_PATTERN = Pattern.compile("^\\s+");
 	
 	public Commands(BotInf botProxy) {
 		this.botProxy = botProxy;
@@ -38,11 +41,40 @@ public class Commands {
 		return true;
 	}
 	
+	public void setIgnore(String commandName, boolean value) {
+		if (commandName == null || commandName.length() == 0) {
+			return;
+		}
+		
+		CommandPack tmp = commands.get(commandName);
+		if (tmp == null) {
+			return;
+		}
+		tmp.ignore = value;
+	}
+	
+	public boolean isIgnore(String commandName) {
+		if (commandName == null || commandName.length() == 0) {
+			return true;
+		}
+		
+		CommandPack tmp = commands.get(commandName);
+		if (tmp == null) {
+			return true;
+		}
+		return tmp.ignore;
+	}
+	
 	public static Command parseCommand(String text) {
 		if (text == null || text.length() == 0) {
 			return null;
 		}
 		String copyText = text += ' ';
+		
+		Matcher headSpaces = HEAD_SPACE_PATTERN.matcher(copyText);
+		if (headSpaces.find()) {
+			copyText = copyText.substring(headSpaces.end(), copyText.length());
+		}
 		
 		Matcher spaces = SPACE_PATTERN.matcher(copyText);
 		spaces.find();
@@ -88,7 +120,7 @@ public class Commands {
 		return new Command(commandName, argsList);
 	}
 	
-	public String executeCommand(Command com, User user) {
+	public String executeCommand(Command com, User user, Update update) {
 		if (com == null || user == null) {
 			return null;
 		}
@@ -102,8 +134,12 @@ public class Commands {
 			return "#ERROR:LAW";
 		}
 		
+		if (tmp.ignore) {
+			return "#ERROR:IGNORE";
+		}
+		
 		try {
-			return tmp.commandObserver.execute(com.getArguments(), botProxy);
+			return tmp.commandObserver.execute(com.getArguments(), botProxy, user, update);
 		}
 		catch (Exception ex) {
 			//LOG

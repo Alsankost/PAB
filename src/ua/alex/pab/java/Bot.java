@@ -20,7 +20,37 @@ public class Bot extends BotInf {
 		dm.regUser(427529611, "Батя");
 		dm.regUser(294112796, "Пуканный звездолет");
 		
-		System.out.println((commands.regCommand("привет", (args, bot) -> { return "привет"; }, "public"))?"привет is load":"привет is not load");
+		System.out.println(dm.addLawUser(427529611, "root"));
+		
+		System.out.println((commands.regCommand("привет", (args, bot, usr, upt) -> { return "привет"; }, "public"))?"привет is load":"привет is not load");
+		commands.regCommand("как-оно", (args, bot, usr, upt) -> { return "как обычно..."; }, "public");
+		commands.setIgnore("как-оно", true);
+		commands.regCommand("гори", (args, bot, usr, upt) -> { return "АААААААААААААААААААААААААААААААААААААААААА!!!!"; }, "root");
+		commands.regCommand("мои-права", (args, bot, usr, upt) -> {
+			String[] laws = usr.getLaws();
+			String tmp = "ваши права:\n";
+			for (int i = 0; i < laws.length; i++) {
+				tmp += laws[i] + "\n";
+			}
+			return tmp;
+		}, "public");
+		commands.regCommand("мое-имя", (args, bot, usr, upt) -> {
+			String tmp = "";
+			for (int i = 0; i < args.length; i++) {
+				tmp += args[i] + ( (i < args.length - 1)?" ":"" );
+			}
+			
+			if (tmp.length() < 2) {
+				return "псевдоним должен сожержать 2 и более символов";
+			}
+			
+			if (bot.getDataManager().getUserFromId(usr.getId()) == null) {
+				bot.getDataManager().regUser(usr.getId(), tmp);
+			}
+			bot.getDataManager().setUserProp(usr.getId(), "name", tmp);
+			
+			return "ваш псевдоним успешно обновлен";
+		}, "root");
 	}
 	
 	@Override
@@ -37,7 +67,7 @@ public class Bot extends BotInf {
 	        
 	        User user = this.dataManager.getUserFromId(update.getMessage().getFrom().getId());
 	        if (user == null) {
-	        	user = this.dataManager.getDefaultUser(userName);
+	        	user = this.dataManager.getDefaultUser(update.getMessage().getFrom().getId(), userName);
 	        }
 	        
 	        System.out.println("\n====MESSAGE====");
@@ -56,7 +86,7 @@ public class Bot extends BotInf {
 	        		}
 	        		System.out.println("Command: " + command.getName());
 	        		
-	        		String result = commands.executeCommand(command, user);
+	        		String result = commands.executeCommand(command, user, update);
 	        		
 	        		if (result == null) {
 	        			System.out.println("#COMMAND IS NOT FOUND");
@@ -67,6 +97,12 @@ public class Bot extends BotInf {
 	        		if (result.compareTo("#ERROR:EXCEPTION") == 0) {
 	        			System.out.println("#EXECUTE ERROR");
 	        			this.sendTextMessageToChat(user.getName() + ", с данной коммандой какие-то неполадки!", chatId);
+	        			return;
+	        		}
+	        		
+	        		if (result.compareTo("#ERROR:IGNORE") == 0) {
+	        			System.out.println("#THIS COMMAND IS IGNORE");
+	        			this.sendTextMessageToChat(user.getName() + ", эта комманда отключена!", chatId);
 	        			return;
 	        		}
 	        		

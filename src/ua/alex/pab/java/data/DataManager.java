@@ -20,5 +20,5 @@ public interface DataManager {
 	
 	public User getUserFromId(long id);
 	public User getUserFromName(String name);
-	public User getDefaultUser(String name);
+	public User getDefaultUser(long id, String name);
 }
