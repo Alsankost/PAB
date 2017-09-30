@@ -6,6 +6,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import ua.alex.pab.java.base.BotNickSpace;
+import ua.alex.pab.java.cmd.Commands;
 import ua.alex.pab.java.data.DataManager;
 
 
@@ -15,6 +16,7 @@ public class Bot extends TelegramLongPollingBot {
 	
 	private BotNickSpace botNicks;
 	private DataManager dataManager;
+	private Commands commands;
 	
 	public BotNickSpace getBotNicks() {
 		return botNicks;
@@ -27,6 +29,9 @@ public class Bot extends TelegramLongPollingBot {
 	public Bot(String nick, DataManager dm) {
 		botNicks = new BotNickSpace(nick);
 		dataManager = dm;
+		commands = new Commands(dataManager);
+		
+		
 	}
 	
 	@Override

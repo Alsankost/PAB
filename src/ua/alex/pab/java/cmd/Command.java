@@ -12,6 +12,11 @@ public class Command {
 		arguments = new ArrayList<String>();
 	}
 	
+	public Command(String name, List<String> args) {
+		nameCommand = name;
+		arguments = args;
+	}
+	
 	public String[] getArguments() {
 		String[] tmp = new String[arguments.size()];
 		arguments.toArray(tmp);

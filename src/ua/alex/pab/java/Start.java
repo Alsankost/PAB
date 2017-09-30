@@ -11,7 +11,7 @@ import ua.alex.pab.java.data.RamDataManager;
 public class Start {
 
 	public static void main(String[] args) {
-		/*
+		
 		ApiContextInitializer.init();
 
         // Instantiate Telegram Bots API
@@ -26,7 +26,7 @@ public class Start {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-		*/
+		/*
 		RamDataManager rdm = new RamDataManager();
 		rdm.loadLaws();
 		Commands com = new Commands();
@@ -36,7 +36,7 @@ public class Start {
 		String[] mas = com.parseCommand("hs \"asd\" assd, \" asdsda sdad \" asda ddd");
 		for (int i = 0; i < mas.length; i++) {
 			System.out.println(mas[i]);
-		}
+		}*/
 	}
 
 }

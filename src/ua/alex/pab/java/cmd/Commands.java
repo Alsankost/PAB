@@ -8,15 +8,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ua.alex.pab.java.base.Law;
+import ua.alex.pab.java.base.User;
 import ua.alex.pab.java.data.DataManager;
 
 public class Commands {
-	private Map<String,CommandPack> commands = new HashMap<String,CommandPack>();
-	public DataManager botDataManager;
+	private Map<String,CommandPack> commands;
+	private DataManager botDataManager;
 	
 	private static final Pattern NAME_PATTERN  = Pattern.compile("^[\\S]+$");
 	private static final Pattern SPACE_PATTERN = Pattern.compile("\\s+");
 	private static final Pattern QUOTE_PATTERN = Pattern.compile("[^\\\\]\"");  
+	
+	public Commands(DataManager botDataManager) {
+		this.botDataManager = botDataManager;
+		commands = new HashMap<String,CommandPack>();
+	}
 	
 	public boolean regCommand(String name, CommandObserver co, String law) {
 		Law lawObj = botDataManager.getLaws().getFromName(law);
@@ -32,7 +38,7 @@ public class Commands {
 		return true;
 	}
 	
-	public static String[] parseCommand(String text) {
+	public static Command parseCommand(String text) {
 		if (text == null || text.length() == 0) {
 			return null;
 		}
@@ -60,7 +66,7 @@ public class Commands {
 		}*/
 		
 		List<String> argsList = new ArrayList<String>();
-		argsList.add(commandName);
+		//argsList.add(commandName);
 		int mem = spaces.end();
 		while (spaces.find()) {
 			boolean flag = false;
@@ -79,14 +85,31 @@ public class Commands {
 			mem = spaces.end();
 		}
 		
-		String[] tmp = new String[argsList.size()];
-		argsList.toArray(tmp);
-		return tmp;
+		return new Command(commandName, argsList);
 	}
 	
-	public String executeCommand();
-	
-	
+	public String executeCommand(Command com, User user) {
+		if (com == null || user == null) {
+			return null;
+		}
+		
+		CommandPack tmp = commands.get(com.getName());
+		if (tmp == null) {
+			return null;
+		}
+		
+		if (!tmp.law.inBranches(user.getLaws())) {
+			return "#ERROR:LAW";
+		}
+		
+		try {
+			return tmp.commandObserver.execute(com.getArguments());
+		}
+		catch (Exception ex) {
+			//LOG
+			return null;
+		}
+	}
 }
 
 class CommandPack {
