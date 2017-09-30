@@ -32,7 +32,7 @@ public class Commands {
 		return true;
 	}
 	
-	public String[] parseCommand(String text) {
+	public static String[] parseCommand(String text) {
 		if (text == null || text.length() == 0) {
 			return null;
 		}
@@ -54,18 +54,20 @@ public class Commands {
 		if (quotesList.size() % 2 != 0) {
 			return null;
 		}
-		
+		/*
 		for (int i = 0; i < quotesList.size(); i+=2) {
 			System.out.println(copyText.substring(quotesList.get(i) - 1, quotesList.get(i + 1)));
-		}
+		}*/
 		
 		List<String> argsList = new ArrayList<String>();
 		argsList.add(commandName);
 		int mem = spaces.end();
 		while (spaces.find()) {
 			boolean flag = false;
-			for (int i = 0; i < quotesList.size() - 1 && quotesList.get(i + 1) < spaces.start(); i+=2) {
-				if (quotesList.get(i) < spaces.start() && quotesList.get(i + 1) > spaces.start()) {
+			//System.out.println("=================");
+			for (int i = 0; i < quotesList.size() - 1 && quotesList.get(i) - 1 < spaces.start(); i+=2) {
+				//System.out.println(spaces.start() + " " + quotesList.get(i) + " " + quotesList.get(i + 1));
+				if (quotesList.get(i) - 1 < spaces.start() && quotesList.get(i + 1) > spaces.start()) {
 					flag = true;
 				}
 			}
@@ -81,6 +83,9 @@ public class Commands {
 		argsList.toArray(tmp);
 		return tmp;
 	}
+	
+	public String executeCommand();
+	
 	
 }
 
