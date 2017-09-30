@@ -31,7 +31,7 @@ public class BotNickSpace {
 	public String parseRequest(String request) {
 		Matcher m = namePattern.matcher(request);
 		boolean res = m.find();
-		System.out.println(m.group());
+		//System.out.println(m.group());
 		if (res && botNicks.indexOf(request.substring(m.start(), m.end() - 1).toUpperCase()) >= 0) {
 			return request.substring(m.end(), request.length());
 		}

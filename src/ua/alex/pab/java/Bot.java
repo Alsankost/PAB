@@ -33,7 +33,9 @@ public class Bot extends TelegramLongPollingBot {
 		dataManager = dm;
 		commands = new Commands(dataManager);
 		
+		dm.loadLaws();
 		
+		commands.regCommand("привет", (args) -> { return "привет"; }, "public");
 	}
 	
 	@Override
@@ -53,27 +55,43 @@ public class Bot extends TelegramLongPollingBot {
 	        	user = this.dataManager.getDefaultUser(userName);
 	        }
 	        
+	        System.out.println("\n\n\n====MESSAGE====");
+	        System.out.println("User name: " + user.getName());
+	        
 	        String context = botNicks.parseRequest(messageText);
 	        if (context != null) {
-	        	if (context.length() == 0) {
+	        	if (context.length() != 0) {
+	        		System.out.println("Context: " + context);
 	        		Command command = Commands.parseCommand(context);
-	        		if (command != null) {
+	        		if (command == null) {
+	        			System.out.println("#NO COMMAND");
 	        			this.sendTextMessageToChat(user.getName() + ", хз что это должно значить...", chatId);
 	        			return;
 	        		}
+	        		System.out.println("Command: " + command.getName());
 	        		
 	        		String result = commands.executeCommand(command, user);
+	        		
+	        		if (result == null) {
+	        			System.out.println("#NO RESULT");
+	        			this.sendTextMessageToChat(user.getName() + ", с данной коммандой какие-то неполадки!", chatId);
+	        			return;
+	        		}
+	        		
 	        		if (result.compareTo("#ERROR:LAW") == 0) {
+	        			System.out.println("#NO LAW FROM USER FOM CALL THIS COMMAND");
 	        			this.sendTextMessageToChat(user.getName() + ", у вас недостаточно прав для этого действия!", chatId);
 	        			return;
 	        		}
 	        		
 	        		if (result.length() > 0) {
+	        			System.out.println("Result: " + result);
 	        			this.sendTextMessageToChat(user.getName() + ", " + result, chatId);
 	        		}
+	        		return;
 	        	}
 	        }
-	        
+	        System.out.println("#NO CONTEXT");
 		}
 	        /*
 	        Matcher matcher = pattern.matcher(message_text);
