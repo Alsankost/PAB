@@ -15,42 +15,11 @@ public class Bot extends BotInf {
 	//public static Pattern pattern = Pattern.compile("windows");
 	public Bot(String nick, DataManager dm) {
 		super(nick, dm);
-		dm.loadLaws();
 		
 		dm.regUser(427529611, "Батя");
 		dm.regUser(294112796, "Пуканный звездолет");
 		
 		System.out.println(dm.addLawUser(427529611, "root"));
-		
-		System.out.println((commands.regCommand("привет", (args, bot, usr, upt) -> { return "привет"; }, "public"))?"привет is load":"привет is not load");
-		commands.regCommand("как-оно", (args, bot, usr, upt) -> { return "как обычно..."; }, "public");
-		commands.setIgnore("как-оно", true);
-		commands.regCommand("гори", (args, bot, usr, upt) -> { return "АААААААААААААААААААААААААААААААААААААААААА!!!!"; }, "root");
-		commands.regCommand("мои-права", (args, bot, usr, upt) -> {
-			String[] laws = usr.getLaws();
-			String tmp = "ваши права:\n";
-			for (int i = 0; i < laws.length; i++) {
-				tmp += laws[i] + "\n";
-			}
-			return tmp;
-		}, "public");
-		commands.regCommand("мое-имя", (args, bot, usr, upt) -> {
-			String tmp = "";
-			for (int i = 0; i < args.length; i++) {
-				tmp += args[i] + ( (i < args.length - 1)?" ":"" );
-			}
-			
-			if (tmp.length() < 2) {
-				return "псевдоним должен сожержать 2 и более символов";
-			}
-			
-			if (bot.getDataManager().getUserFromId(usr.getId()) == null) {
-				bot.getDataManager().regUser(usr.getId(), tmp);
-			}
-			bot.getDataManager().setUserProp(usr.getId(), "name", tmp);
-			
-			return "ваш псевдоним успешно обновлен";
-		}, "root");
 	}
 	
 	@Override
@@ -170,7 +139,7 @@ public class Bot extends BotInf {
 	}
 	
 	@SuppressWarnings("deprecation")
-	private boolean sendTextMessageToChat(String text, long id) {
+	public boolean sendTextMessageToChat(String text, long id) {
 		SendMessage message = new SendMessage().setChatId(id).setText(text);
 		
 		try {

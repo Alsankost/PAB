@@ -1,9 +1,12 @@
 package ua.alex.pab.java;
 
+import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import ua.alex.pab.java.base.BotNickSpace;
 import ua.alex.pab.java.cmd.Commands;
+import ua.alex.pab.java.cmd.commands.BoxCommands;
 import ua.alex.pab.java.data.DataManager;
 
 public abstract class BotInf extends TelegramLongPollingBot {
@@ -19,6 +22,9 @@ public abstract class BotInf extends TelegramLongPollingBot {
 		this.dataManager  = dataManager;
 		this.botNickSpace = new BotNickSpace(nick);
 		this.commands     = new Commands(this);
+		
+		this.dataManager.loadLaws();
+		this.commands.loadCommands(new BoxCommands());
 	}
 	
 	public BotNickSpace getBotNickSpace() {

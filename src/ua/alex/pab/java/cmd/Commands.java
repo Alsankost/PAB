@@ -110,27 +110,30 @@ public class Commands {
 		int count = loader.getCount();
 		for (int i = 0; i < count; i++) {
 			String name = loader.getName(i);
-			System.out.print(" -" + normName(name) + " - ");
+			System.out.print(" -" + normName(name) + ":");
 			if (!isValideCommandName(name)) {
-				System.out.println("FAIL: invalid command name");
+				System.out.println("\n   FAIL: invalid command name");
 				continue;
 			}
 			
 			if (commands.containsKey(name)) {
-				System.out.println("FAIL: this command name in use");
+				System.out.println("\n   FAIL: this command name in use");
 				continue;
 			}
 			
 			CommandObserver observer = loader.getCommandObserver(i);
 			if (observer == null) {
-				System.out.println("FAIL: command observer is not exist");
+				System.out.println("\n   FAIL: command observer is not exist");
 				continue;
 			}
+			
+			boolean noWarning = true;
 			
 			Law law = botProxy.getDataManager().getLaws().getFromName(loader.getLaw(i));
 			if (law == null) {
 				law = botProxy.getDataManager().getLaws().getRoot();
 				System.out.println("\n   WARNING: command law is not exist, 'root' selected");
+				noWarning = false;
 			}
 			
 			CommandPack tmp = new CommandPack(observer, law);
@@ -139,7 +142,13 @@ public class Commands {
 			if (normName(man).compareTo("unknow") == 0) {
 				man = null;
 				System.out.println("\n   WARNING: command manual is not exist");
+				noWarning = false;
 			}
+			
+			if (noWarning) {
+				System.out.println("\n   OK");
+			}
+			
 			tmp.manual = man;
 			commands.put(name, tmp);
 		}
