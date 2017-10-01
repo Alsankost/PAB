@@ -205,6 +205,16 @@ public class Commands {
 			//System.out.println("!ERROR IN COMMAND!\n" + ex.getMessage());
 		}
 	}
+	
+	public String[] getCommandNames() {
+		String[] tmp = new String[commands.keySet().size()];
+		commands.keySet().toArray(tmp);
+		return tmp;
+	}
+	
+	public String getManual(String command) {
+		return commands.get(command).manual;
+	}
 }
 
 class CommandPack {

@@ -13,7 +13,7 @@ public class MyLaws_Command implements CommandObserver {
 		String[] laws = usr.getLaws();
 		String tmp = "ваши права:\n";
 		for (int i = 0; i < laws.length; i++) {
-			tmp += laws[i] + "\n";
+			tmp += " -" + laws[i] + "\n";
 		}
 		return tmp;
 	}

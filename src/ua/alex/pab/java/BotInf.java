@@ -1,8 +1,6 @@
 package ua.alex.pab.java;
 
-import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import ua.alex.pab.java.base.BotNickSpace;
 import ua.alex.pab.java.cmd.Commands;

@@ -17,7 +17,7 @@ public abstract class Law {
 		
 		while (tmp != null) {
 			for (int i = 0; i < branches.length; i++) {
-				System.out.println(tmp.name + " " + branches[i]);
+				//System.out.println(tmp.name + " " + branches[i]);
 				if (tmp.name.compareTo(branches[i]) == 0) {
 					return true;
 				}
