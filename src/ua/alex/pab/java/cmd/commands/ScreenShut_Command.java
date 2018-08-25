@@ -23,7 +23,6 @@ import ua.alex.pab.java.cmd.CommandObserver;
 public class ScreenShut_Command implements CommandObserver {
 	public static SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd hh mm ss a");
 	
-	
 	@Override
 	public String execute(String[] args, BotInf botProxy, User user, Update update) {
 		Calendar now = Calendar.getInstance();

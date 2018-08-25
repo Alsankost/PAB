@@ -13,6 +13,12 @@ public class RamDataManager implements DataManager {
 	private Laws laws = null;
 	private String[] defaultLaws = {"public"};
 	
+	private Map<Long, EntityUser> users;
+	
+	public RamDataManager() {
+		users = new HashMap<Long, EntityUser>();
+	}
+	
 	@Override
 	public boolean loadLaws() {
 		laws = new Laws();
@@ -73,14 +79,7 @@ public class RamDataManager implements DataManager {
 		public void setLaws(String[] laws) {
 			this.laws = laws.clone();
 		}
-	}
-	
-	private Map<Long, EntityUser> users;
-	
-	public RamDataManager() {
-		users = new HashMap<Long,EntityUser>();
-	}
-	
+	}	
 	
 	@Override
 	public boolean regUser(long id, String name) {

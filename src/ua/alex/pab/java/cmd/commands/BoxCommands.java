@@ -12,7 +12,7 @@ public class BoxCommands implements CommandLoader {
 
 	@Override
 	public int getCount() {
-		return 9;
+		return 10;
 	}
 
 	@Override
@@ -27,6 +27,7 @@ public class BoxCommands implements CommandLoader {
 			case 6:  return "обосрать";
 			case 7:  return "экран";
 			case 8:  return "файл";
+			case 9:  return "слушать";
 			default: return null;
 		}
 	}
@@ -43,6 +44,7 @@ public class BoxCommands implements CommandLoader {
 			case 6:  return new     Obosrat_Command();
 			case 7:  return new  ScreenShut_Command();
 			case 8:  return new     GetFile_Command();
+			case 9:  return new    RecSound_Command();
 			default: return null;
 		}
 	}
@@ -59,6 +61,7 @@ public class BoxCommands implements CommandLoader {
 			case 6:  return "root";
 			case 7:  return "root";
 			case 8:  return "root";
+			case 9:  return "root";
 			default: return null;
 		}
 	}

@@ -9,6 +9,7 @@ import java.util.Map;
 public class Users {
 	private Map<Long,User> userMap;
 	
+	@SuppressWarnings("unused")
 	private String[] defaultLaws;
 	
 	class EntityUser extends User {

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Laws {
-	private Map<String,Law> lawMap;
+	private Map<String, Law> lawMap;
 	
 	class EntityLaw extends Law {
 		public EntityLaw(String name, Law owner) {

@@ -34,8 +34,6 @@ public class Bot extends BotInf {
 			long chatId = update.getMessage().getChatId();
 	        String userName = update.getMessage().getFrom().getFirstName();
 	        
-	        //update.getMessage().getFrom().
-	        
 	        User user = this.dataManager.getUserFromId(update.getMessage().getFrom().getId());
 	        if (user == null) {
 	        	user = this.dataManager.getDefaultUser(update.getMessage().getFrom().getId(), userName);
