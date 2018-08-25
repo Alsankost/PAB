@@ -19,12 +19,12 @@ public class Bot extends BotInf {
 		dm.regUser(427529611, "Батя");
 		dm.regUser(294112796, "Пуканный звездолет");
 		
-		System.out.println(dm.addLawUser(427529611, "root"));
+		dm.addLawUser(427529611, "root");
 	}
 	
 	@Override
 	public String getBotUsername() {
-		return "PowerAss";
+		return "Афанасиё";
 	}
 
 	@Override
@@ -33,6 +33,8 @@ public class Bot extends BotInf {
 			String messageText = update.getMessage().getText();
 			long chatId = update.getMessage().getChatId();
 	        String userName = update.getMessage().getFrom().getFirstName();
+	        
+	        //update.getMessage().getFrom().
 	        
 	        User user = this.dataManager.getUserFromId(update.getMessage().getFrom().getId());
 	        if (user == null) {
@@ -154,7 +156,7 @@ public class Bot extends BotInf {
 
 	@Override
 	public String getBotToken() {
-		return "456848733:AAHCDTuJUqksxykPK1-YV-9coniSaiIm1t4";
+		return "456848733:AAFYrieZQAmOavuN3afbAMj68ucrIRqXRQQ";
 	}
 
 }

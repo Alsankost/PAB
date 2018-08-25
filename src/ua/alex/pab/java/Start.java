@@ -17,6 +17,7 @@ public class Start {
         
         Bot bot = new Bot("Пукан", new RamDataManager());
         bot.getBotNickSpace().addNick("бот");
+        bot.getBotNickSpace().addNick("афанасиё");
         
         // Register our bot
         try {
@@ -24,7 +25,11 @@ public class Start {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-		/*
+        
+        
+        
+        
+        /*
 		RamDataManager rdm = new RamDataManager();
 		rdm.loadLaws();
 		Commands com = new Commands();

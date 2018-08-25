@@ -7,12 +7,12 @@ public class BoxCommands implements CommandLoader {
 
 	@Override
 	public String getNamePack() {
-		return "Box 0.0.1";
+		return "Box 0.0.2";
 	}
 
 	@Override
 	public int getCount() {
-		return 6;
+		return 9;
 	}
 
 	@Override
@@ -24,6 +24,9 @@ public class BoxCommands implements CommandLoader {
 			case 3:  return "мои-права";
 			case 4:  return "команды";
 			case 5:  return "bash";
+			case 6:  return "обосрать";
+			case 7:  return "экран";
+			case 8:  return "файл";
 			default: return null;
 		}
 	}
@@ -37,6 +40,9 @@ public class BoxCommands implements CommandLoader {
 			case 3:  return new      MyLaws_Command();
 			case 4:  return new CommandList_Command();
 			case 5:  return new  ServerBash_Command();
+			case 6:  return new     Obosrat_Command();
+			case 7:  return new  ScreenShut_Command();
+			case 8:  return new     GetFile_Command();
 			default: return null;
 		}
 	}
@@ -50,6 +56,9 @@ public class BoxCommands implements CommandLoader {
 			case 3:  return "public";
 			case 4:  return "public";
 			case 5:  return "root";
+			case 6:  return "root";
+			case 7:  return "root";
+			case 8:  return "root";
 			default: return null;
 		}
 	}
