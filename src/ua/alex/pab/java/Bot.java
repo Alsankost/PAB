@@ -16,15 +16,19 @@ public class Bot extends BotInf {
 	public Bot(String nick, DataManager dm) {
 		super(nick, dm);
 		
-		dm.regUser(427529611, "Батя");
-		dm.regUser(294112796, "Пуканный звездолет");
+		dm.regUser(427529611, "Повелитель");
+		//dm.regUser(294112796, "Пуканный звездолет");
 		
 		dm.addLawUser(427529611, "root");
+		
+		this.botNickSpace.addNick("Виктория");
+		this.botNickSpace.addNick("Вика");
+		this.botNickSpace.addNick("Вик");
 	}
 	
 	@Override
 	public String getBotUsername() {
-		return "Афанасиё";
+		return "Виктория";
 	}
 
 	@Override
@@ -154,7 +158,7 @@ public class Bot extends BotInf {
 
 	@Override
 	public String getBotToken() {
-		return "456848733:AAFYrieZQAmOavuN3afbAMj68ucrIRqXRQQ";
+		return "";
 	}
 
 }

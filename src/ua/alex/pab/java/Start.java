@@ -15,9 +15,7 @@ public class Start {
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
         
-        Bot bot = new Bot("Пукан", new RamDataManager());
-        bot.getBotNickSpace().addNick("бот");
-        bot.getBotNickSpace().addNick("афанасиё");
+        Bot bot = new Bot("Виктория", new RamDataManager());
         
         // Register our bot
         try {
@@ -25,9 +23,6 @@ public class Start {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-        
-        
-        
         
         /*
 		RamDataManager rdm = new RamDataManager();
